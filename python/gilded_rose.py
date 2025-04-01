@@ -18,3 +18,9 @@ class DefaultItem(Item):
     def update(self):
         self.sell_in -= 1
         self.quality = max(0, self.quality - (2 if self.sell_in < 0 else 1))
+
+
+class AgedBrie(Item):
+    def update(self):
+        self.sell_in -= 1
+        self.quality = min(50, self.quality + (2 if self.sell_in < 0 else 1))
