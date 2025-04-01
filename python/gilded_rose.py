@@ -34,3 +34,8 @@ class BackstagePass(Item):
             increase = 3 if self.sell_in <= 5 else 2 if self.sell_in <= 10 else 1
             self.quality = min(50, self.quality + increase)
         self.sell_in -= 1
+
+
+class Sulfuras(Item):
+    def update(self):
+        pass  # Ensures quality remains constant and sell_in never changes

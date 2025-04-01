@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from gilded_rose import DefaultItem, AgedBrie, BackstagePass
+from gilded_rose import DefaultItem, AgedBrie, BackstagePass, Sulfuras
 
 
 class TestGildedRose(unittest.TestCase):
@@ -73,6 +73,15 @@ class TestGildedRose(unittest.TestCase):
         item.update()
         self.assertEqual(item.quality, 50)  # Max quality limit
         self.assertEqual(item.sell_in, 4)
+
+    def test_sulfuras(self):
+        # Create a Sulfuras item
+        item = Sulfuras("Sulfuras", 5, 80)
+
+        # Ensure quality remains constant and sell_in never changes
+        item.update()
+        self.assertEqual(item.quality, 80)
+        self.assertEqual(item.sell_in, 5)
 
 
 if __name__ == '__main__':
