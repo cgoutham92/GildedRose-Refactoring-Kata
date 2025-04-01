@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from gilded_rose import DefaultItem, AgedBrie
+from gilded_rose import DefaultItem, AgedBrie, BackstagePass
 
 
 class TestGildedRose(unittest.TestCase):
@@ -42,6 +42,37 @@ class TestGildedRose(unittest.TestCase):
         item.quality = 70
         item.update()
         self.assertEqual(item.quality, 50)  # Quality should remain 50
+
+    def test_backstage_pass(self):
+        # Case 1: sell_in > 10
+        item = BackstagePass("Backstage Pass", 11, 10)
+        item.update()
+        self.assertEqual(item.quality, 11)  # Should increase by 1
+        self.assertEqual(item.sell_in, 10)
+
+        # Case 2: 5 < sell_in ≤ 10
+        item = BackstagePass("Backstage Pass", 10, 10)
+        item.update()
+        self.assertEqual(item.quality, 12)  # Should increase by 2
+        self.assertEqual(item.sell_in, 9)
+
+        # Case 3: 0 < sell_in ≤ 5
+        item = BackstagePass("Backstage Pass", 5, 10)
+        item.update()
+        self.assertEqual(item.quality, 13)  # Should increase by 3
+        self.assertEqual(item.sell_in, 4)
+
+        # Case 4: sell_in = 0 (concert starts, quality drops to 0)
+        item = BackstagePass("Backstage Pass", 0, 10)
+        item.update()
+        self.assertEqual(item.quality, 0)  # Quality should drop to 0
+        self.assertEqual(item.sell_in, -1)
+
+        # Case 5: Quality should never exceed 50
+        item = BackstagePass("Backstage Pass", 5, 49)
+        item.update()
+        self.assertEqual(item.quality, 50)  # Max quality limit
+        self.assertEqual(item.sell_in, 4)
 
 
 if __name__ == '__main__':
