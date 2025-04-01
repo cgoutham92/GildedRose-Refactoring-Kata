@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from gilded_rose import DefaultItem, AgedBrie, BackstagePass, Sulfuras
+from gilded_rose import DefaultItem, AgedBrie, BackstagePass, Sulfuras, GildedRose
 
 
 class TestGildedRose(unittest.TestCase):
@@ -82,6 +82,27 @@ class TestGildedRose(unittest.TestCase):
         item.update()
         self.assertEqual(item.quality, 80)
         self.assertEqual(item.sell_in, 5)
+
+    def test_gilded_rose(self):
+        # Create a list of items
+        items = [
+            DefaultItem("Normal Item", 1, 10),
+            AgedBrie("Aged Brie", 1, 10),
+            BackstagePass("Backstage Pass", 11, 10),
+            Sulfuras("Sulfuras", 5, 80)
+        ]
+
+        # Create the GildedRose object
+        gilded_rose = GildedRose(items)
+
+        # Update the items
+        gilded_rose.update_quality()
+
+        # Test each item
+        self.assertEqual(items[0].quality, 9)
+        self.assertEqual(items[1].quality, 11)
+        self.assertEqual(items[2].quality, 11)
+        self.assertEqual(items[3].quality, 80)
 
 
 if __name__ == '__main__':
